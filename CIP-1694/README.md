@@ -146,7 +146,7 @@ can have more than one effect (e.g. changing two or more protocol parameters).
 Properly authorized governance actions are applied on an epoch boundary (they are **enacted**).
 
 PV it is unclear whether proposing a new action is the same thing as voting for an action
-that has not yet been propsed
+that has not yet been proposed
 
 #### Hard Forks
 
