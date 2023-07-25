@@ -314,7 +314,15 @@ The maximum term is a governance protocol parameter, specified as a number of ep
 During a state of no-confidence, no action can be ratified,
 so the committee should plan for its own replacement if it wishes to avoid disruption.
 
-<!--------------------------- Constitutional committee ------------------------>
+#### Proposal policy
+
+While the constitution is an informal, off-chain document, there will
+also an optional script that can enforce some guidelines. This script
+acts to supplement the constitutional committee by restricting some
+proposal types. For example, if the community wishes to have some hard
+rules for the treasury that cannot be violated, a script that enforces
+these rules can be voted in as the proposal policy.
+
 <!---------------------------           DReps          ------------------------>
 
 ### Delegated representatives (DReps)
@@ -498,7 +506,7 @@ A governance action is an on-chain event that is triggered by a transaction and 
 |:--------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
 | 1. Motion of no-confidence                                    | A motion to create a _state of no-confidence_ in the current constitutional committee                                    |
 | 2. New constitutional committee and/or threshold and/or terms | Changes to the members of the constitutional committee and/or to its signature threshold and/or terms                    |
-| 3. Updates to the Constitution                                | A modification to the off-chain Constitution, recorded as an on-chain hash of the text document                          |
+| 3. Update to the Constitution or proposal policy              | A modification to the Constitution or proposal policy, recorded as on-chain hashes                                       |
 | 4. Hard-Fork[^2] Initiation                                   | Triggers a non-backwards compatible upgrade of the network; requires a prior software upgrade                            |
 | 5. Protocol Parameter Changes                                 | Any change to **one or more** updatable protocol parameters, excluding changes to major protocol versions ("hard forks") |
 | 6. Treasury Withdrawals                                       | Withdrawals from the treasury                                                                                            |
@@ -509,6 +517,11 @@ They must provide a deposit of `govDeposit` Lovelace, which will be returned whe
 (whether it is **ratified** or has **expired**).
 The deposit amount will be added to the _deposit pot_, similar to stake key deposits.
 It will also be counted towards the stake of the reward address it will be paid back to, to not reduce the submitter's voting power to vote on their own (and competing) actions.
+
+If a proposal policy is present, the transaction must include that
+policy in the witness set either directly, or via reference inputs,
+and any other requirements that the proposal policy makes must be
+satisfied.
 
 Note that a motion of no-confidence is an extreme measure that enables Ada holders to revoke the power
 that has been granted to the current constitutional committee.
@@ -555,19 +568,19 @@ The following table details the ratification requirements for each governance ac
   The SPO vote threshold which must be met as a percentage of the stake held by all stake pools.<br/>
   A value of - means that SPO votes do not apply.
 
-| Governance action type                                            | CC   | DReps    | SPOs     |
-| :---                                                              | :--- | :---     | :---     |
-| 1. Motion of no-confidence                                        | \-   | $P_1$    | $Q_1$    |
-| 2<sub>a</sub>. New committee/threshold (_normal state_)           | \-   | $P_{2a}$ | $Q_{2a}$ |
-| 2<sub>b</sub>. New committee/threshold (_state of no-confidence_) | \-   | $P_{2b}$ | $Q_{2b}$ |
-| 3. Update to the Constitution                                     | ✓    | $P_3$    | \-       |
-| 4. Hard-fork initiation                                           | ✓    | $P_4$    | $Q_4$    |
-| 5<sub>a</sub>. Protocol parameter changes, network group          | ✓    | $P_{5a}$ | \-       |
-| 5<sub>b</sub>. Protocol parameter changes, economic group         | ✓    | $P_{5b}$ | \-       |
-| 5<sub>c</sub>. Protocol parameter changes, technical group        | ✓    | $P_{5c}$ | \-       |
-| 5<sub>d</sub>. Protocol parameter changes, governance group       | ✓    | $P_{5d}$ | \-       |
-| 6. Treasury withdrawal                                            | ✓    | $P_6$    | \-       |
-| 7. Info                                                           | ✓    | $100$    | $100$    |
+| Governance action type                                            | CC | DReps    | SPOs     |
+|:------------------------------------------------------------------|:---|:---------|:---------|
+| 1. Motion of no-confidence                                        | \- | $P_1$    | $Q_1$    |
+| 2<sub>a</sub>. New committee/threshold (_normal state_)           | \- | $P_{2a}$ | $Q_{2a}$ |
+| 2<sub>b</sub>. New committee/threshold (_state of no-confidence_) | \- | $P_{2b}$ | $Q_{2b}$ |
+| 3. Update to the Constitution or proposal policy                  | ✓  | $P_3$    | \-       |
+| 4. Hard-fork initiation                                           | ✓  | $P_4$    | $Q_4$    |
+| 5<sub>a</sub>. Protocol parameter changes, network group          | ✓  | $P_{5a}$ | \-       |
+| 5<sub>b</sub>. Protocol parameter changes, economic group         | ✓  | $P_{5b}$ | \-       |
+| 5<sub>c</sub>. Protocol parameter changes, technical group        | ✓  | $P_{5c}$ | \-       |
+| 5<sub>d</sub>. Protocol parameter changes, governance group       | ✓  | $P_{5d}$ | \-       |
+| 6. Treasury withdrawal                                            | ✓  | $P_6$    | \-       |
+| 7. Info                                                           | ✓  | $100$    | $100$    |
 
 Each of these thresholds is a governance parameter.
 The initial thresholds should be chosen by the Cardano community as a whole.
@@ -600,7 +613,7 @@ Actions that have been ratified in the current epoch are prioritized as follows 
 
 1. Motion of no-confidence
 2. New committee/threshold
-3. Updates to the Constitution
+3. Update to the Constitution or proposal policy
 4. Hard Fork initiation
 5. Protocol parameter changes
 6. Treasury withdrawals
@@ -640,15 +653,15 @@ Every governance action will include the following:
 
 In addition, each action will include some elements that are specific to its type:
 
-| Governance action type         | Additional data                                                                                                                                                                                 |
-|:-------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1. Motion of no-confidence     | None                                                                                                                                                                                            |
-| 2. New committee/threshold     | The set of verification key hash digests (members to be removed), a map of verification key hash digests to epoch numbers (new members and their term limit), and a fraction (quorum threshold) |
-| 3. Update to the Constitution  | A hash digest of the Constitution document                                                                                                                                                      |
-| 4. Hard-fork initiation        | The new (greater) major protocol version                                                                                                                                                        |
-| 5. Protocol parameters changes | The changed parameters                                                                                                                                                                          |
-| 6. Treasury withdrawal         | A map from stake credentials to a positive number of Lovelace                                                                                                                                   |
-| 7. Info                        | None                                                                                                                                                                                            |
+| Governance action type                           | Additional data                                                                                                                                                                                 |
+|:-------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. Motion of no-confidence                       | None                                                                                                                                                                                            |
+| 2. New committee/threshold                       | The set of verification key hash digests (members to be removed), a map of verification key hash digests to epoch numbers (new members and their term limit), and a fraction (quorum threshold) |
+| 3. Update to the Constitution or proposal policy | A hash digest of the Constitution and an optional script hash of the proposal policy                                                                                                            |
+| 4. Hard-fork initiation                          | The new (greater) major protocol version                                                                                                                                                        |
+| 5. Protocol parameters changes                   | The changed parameters                                                                                                                                                                          |
+| 6. Treasury withdrawal                           | A map from stake credentials to a positive number of Lovelace                                                                                                                                   |
+| 7. Info                                          | None                                                                                                                                                                                            |
 
 > **Note**
 > The new major protocol version must be precisely one greater than the current protocol version.
