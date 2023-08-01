@@ -887,7 +887,7 @@ In this situation, the SPOs and the DReps are left to represent the will of the 
 Similar to the motion of no-confidence, electing a constitutional committee
 depends on both the SPOs and the DReps to represent the will of the community.
 
-### The versatility of the info governance action
+### The versatility of the Info governance action
 
 While not binding on chain, the Info governance action could be useful in an number of
 situations.  These include:
@@ -895,6 +895,7 @@ situations.  These include:
 * ratifying a CIP
 * deciding on the genesis file for a new ledger era
 * recording initial feedback for future governance actions
+* determining community preparedness for a proposed hard fork
 
 ### Hard-Fork initiation
 
@@ -970,6 +971,81 @@ We solve the bootstrapping problem as described in the section on bootstrapping.
 We solve the long-term participation problem by not allowing reward withdrawals
 (after the bootstrap phase) unless the stake is delegated to a DRep
 (including the two special cases, namely 'Abstain' and 'No confidence').
+
+## Clarifications
+
+This section aims to collect and clarify some issues that have been found to cause some confusion/debate.
+
++ [Governance Action Timeline](#governance-action-timeline)
++ [Action Expiry](#action-expiry)
++ [Action Ratification](#action-ratification)
++ [State of No Confidence](#state-of-no-confidence)
++ [Period for Discussion](#period-for-discussion)
+
+### Governance Action Timeline
+
+The timeline for governance action is as shown below:
+
+**Give the timeline**
+
+The order of checking at an epoch boundary is:
+
+1. Check for Enactment
+2. Check for Expiry
+3. Check for Ratification
+
+### Action Expiry
+
+Actions that reach their expiry limit are automatically expired, even if they have been ratified.  This prevents an action from
+persisting indefinitely (e.g. if a ratified action can never be enacted because it does not link to the previous action of the
+same type).
+
+### Action Ratification
+
+Actions are checked for ratification immediately prior to each epoch boundary.  If the required votes for an action meet or exceed
+all of the required thresholds
+
+If an action is not enacted (e.g. because a state of no confidence exists), it may then expire, or it may be checked again for ratification
+in the subsequent epoch boundary.  An action may thus be ratified, but not enacted, and subsequently never be ratified
+prior to its expiry.
+
+### Vote Tallying against the Required Vote Thresholds
+
+#### DRep Thresholds
+
+For DReps the vote tally is the instantaneous count of `Yes` votes for an action measured against the total active voting stake
+at the time of ratification (where **active voting stake** is defined above).  This must match or exceed the relevant
+threshold for the governance action that is in force at the point when ratification is considered.  
+
+#### SPO Thresholds
+
+**Explanation needed**
+
+#### Constitutional Committee Thresholds
+
+For Constitutional committee members, the vote tally is the instantaneous count of `Yes` votes measured against the total size
+of the committee.  This must match or exceed the required fraction of the committee size that is in force at the point when ratification is considered.
+
+### State of No Confidence
+
+When a state of no confidence exists, actions may still be submitted, voted on and ratified, as usual.  They may also expire in line with the usual
+rules.  However, while a state of no confidence exists, no action can be **enacted** other than a change to the constitutional committee.  Once
+the change has been enacted, the system returns to a normal governance state.
+
+### Period for Discussion
+
+Since the on-chain voting period is limited by the action expiry period and since govrnance actions usually need to refer to the previously enacted action 
+of the same type, governance actions will normally be debated by the community off-chain for an extended period prior to their submission for on-chain voting.  Each action contains an **anchor** to off-chain metadata
+that can be used to support the action, including links to prior discussions and community debates.
+
+## Change Log
+
+The following changes have been made from the previous version of this CIP that was published on June 30, 2023.
+
+1. Added script credentials to constitution/constitutional committee
+1. Various small edits
+1. Added timeline and other clarifications in a new section
+1. ...
 
 ## Path to Active
 
