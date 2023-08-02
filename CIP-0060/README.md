@@ -21,8 +21,8 @@ Music tokens on Cardano can be either NFTs or FTs and contain links to audio fil
 
 This CIP divides the additional metadata parameters into two categories of `Required` and `Optional`. When minting a music token on Cardano, you are expected to include ALL of the required fields. If you choose to include one or more of the optional fields, they must be named exactly as defined in this CIP. This will properly allow indexing apps and music players to utilize as much of your token metadata as possible without issues.
 
-[CDDL Spec Version 2](./cddl/version-2.cddl)<br/>
-[CDDL Spec Version 1 (deprecated)](./cddl/version-1.cddl)
+[CDDL Spec Version 2](cddl/version-2.cddl)
+[CDDL Spec Version 1 (deprecated)](cddl/version-1.cddl)
 
 ## Summary of v2 Changes ##
 In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_title`. `release` is a more generic name that covers all types of releases from Albums, EPs, LPs, Singles, and Compilations. At the top level, we are grouping those metadata items that relate to the release under a new key `release`. At the file for each song, there is a new `song` key that holds the metadata specific to the individual song. These changes separate the music-specific metadata from the general CIP-25/CIP-68 NFT metadata. A music player can look at just the information necessary instead of having to ignore extra NFT-related fields. CIP-68 NFTs are officially supported and an example specific to CIP-68 has been added below.
@@ -55,7 +55,7 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
 | distributor | String | "distributor": "https://newm.io" | |
 | release_date | String | "release_date": "2022-07-27" | ISO8601 Date Format |
 | publication_date | String | "publication_date": "2022-07-27" | ISO8601 Date Format |
-| catalog_number | Integer | "catalog_number": 2 | | 
+| catalog_number | Integer | "catalog_number": 2 | |
 | bitrate | String | "bitrate": "256 kbit/s" | |
 | bpm     | String | "bpm": "120 BPM" | |
 | mix_engineer | String | "mix_engineer": "Robert Smith II" | |
@@ -305,7 +305,7 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
                 {"k": {"bytes": "696D616765"}, "v": {"bytes": "697066733A2F2F516D513133437639576F756634726377744E7375466845654A564B396245596A43596F36414E39383674616B6975"}},
                 {"k": {"bytes": "6D757369635F6D657461646174615F76657273696F6E"}, "v": {"int": 2}},
                 {"k": {"bytes": "72656C656173655F74797065"}, "v": {"bytes": "53696E676C65"}},
-                {"k": {"bytes": "72656c65617365"}, "v": 
+                {"k": {"bytes": "72656c65617365"}, "v":
                     {
                         "map": [
                             {"k": {"bytes": "72656c656173655f7469746c65"}, "v": {"bytes": "432e482e492e4c2e4c2e"}},
@@ -313,7 +313,7 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
                         ]
                     }
                 },
-                {"k": {"bytes": "66696C6573"}, "v": 
+                {"k": {"bytes": "66696C6573"}, "v":
                     {
                         "array": [
                             {
@@ -321,17 +321,17 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
                                     {"k": {"bytes": "6e616d65"}, "v": {"bytes": "432e482e492e4c2e4c2e"}},
                                     {"k": {"bytes": "6d6564696154797065"}, "v": {"bytes": "617564696f2f6d7033"}},
                                     {"k": {"bytes": "737263"}, "v": {"bytes": "697066733a2f2f516d66593475674e6459594a7870626e35426e4e38797435456d6955437a6e6578516f5169365254457539537543"}},
-                                    {"k": {"bytes": "736f6e67"}, "v": 
+                                    {"k": {"bytes": "736f6e67"}, "v":
                                         {
                                             "map": [
                                                 {"k": {"bytes": "736f6e675f7469746c65"}, "v": {"bytes": "432e482e492e4c2e4c2e"}},
                                                 {"k": {"bytes": "736f6e675f6475726174696f6e"}, "v": {"bytes": "5054334d3653"}},
                                                 {"k": {"bytes": "747261636b5f6e756d626572"}, "v": {"int": 1}},
                                                 {"k": {"bytes": "6d6f6f64"}, "v": {"bytes": "6368696c6c6f7574"}},
-                                                {"k": {"bytes": "61727469737473"}, "v": 
+                                                {"k": {"bytes": "61727469737473"}, "v":
                                                     {
                                                         "array": [
-                                                            { 
+                                                            {
                                                                 "map": [
                                                                     {"k": {"bytes": "6e616d65"}, "v": {"bytes": "5068696c207a277669656c"}},
                                                                 ]
@@ -340,7 +340,7 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
                                                     }
                                                 },
                                                 {"k": {"bytes": "636f6c6c656374696f6e"}, "v": {"bytes": "432e482e492e4c2e4c2e"}},
-                                                {"k": {"bytes": "67656e726573"}, "v": 
+                                                {"k": {"bytes": "67656e726573"}, "v":
                                                     {
                                                         "array": [
                                                             {"bytes": "477569746172204c697665204c6f6f70696e67"},
@@ -349,7 +349,7 @@ In version 2 of the CIP-60 spec, `album_title` has been renamed to `release_titl
                                                     }
                                                 },
                                                 {"k": {"bytes": "636f70797269676874"}, "v": {"bytes": "2117 2032303232205068696c207a277669656c"}},
-                                                {"k": {"bytes": "6c696e6b73"}, "v": 
+                                                {"k": {"bytes": "6c696e6b73"}, "v":
                                                     {
                                                         "map": [
                                                             {"k": {"bytes": "646973636f72645f75736572"}, "v": {"bytes": "5068696c207a277669656c2334373131"}},

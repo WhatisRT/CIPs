@@ -1106,8 +1106,6 @@ makes the democracy more liquid since it removes some bureaucracy and
 also removes the need for the DRep deposit, at the cost of moving the anchor that is part of the
 DRep registration certificate into the transaction metadata.
 
-
-
 ##### Reduced deposits for some government actions
 
 The deposit that is attached to governance actions exists to prevent a flood of non-serious governance
