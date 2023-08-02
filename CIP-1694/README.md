@@ -380,14 +380,6 @@ The reason for marking DReps as inactive is so that DReps who stop participating
 stake delegated to them do not eventually leave the system in a state where no governance
 action can pass.
 
-> **Note**
->
-> It is not necessary to register as a DRep to be able to vote, or for
-> that vote to be counted. However, unregistered DReps do not count
-> towards the active voting stake, so they behave like an inactive
-> DRep that can never become active. This is to have the least
-> possible hurdle for someone who wants to vote on their own behalf.
-
 Registered DReps are identified by a credential that can be either:
 
 * A verification key (Ed25519)
@@ -395,7 +387,7 @@ Registered DReps are identified by a credential that can be either:
 
 The blake2b-224 hash digest of a serialized DRep credential is called the _DRep ID_.
 
-The following new types of certificates will be added for governance:
+The following new types of certificates will be added for DReps:
 DRep registration certificates, DRep retirement certificates, and
 vote delegation certificates.
 
@@ -715,12 +707,12 @@ The **technical group** consists of:
 
 The **governance group** consists of all the new protocol parameters that are introduced in this CIP:
 * governance voting thresholds ($P_1$, $P_{2a}$, $P_{2b}$, $P_3$, $P_4$, $P_{5a}$, $P_{5b}$, $P_{5c}$, $P_{5d}$, $P_6$, $Q_1$, $Q_{2a}$, $Q_{2b}$, $Q_4$)
-* maximum term length (in epochs) of the constitutional committee (`ccTermLimit`)
-* governance action expiration (`govExpiration`)
+* governance action maximum lifetime in epochs (`govActionLifetime`)
 * governance action deposit (`govDeposit`)
 * DRep deposit amount (`drepDeposit`)
-* DRep activity period (`drepActivity`)
-* minimal constitutional committee size (`minCCSize`)
+* DRep activity period in epochs (`drepActivity`)
+* minimal constitutional committee size (`ccMinSize`)
+* maximum term length (in epochs) of the constitutional committee (`ccMaxTermLength`)
 
 <!-- TODO:
   - Decide on the initial values for the new governance parameters
