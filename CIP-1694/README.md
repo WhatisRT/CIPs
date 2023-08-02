@@ -423,7 +423,6 @@ and the deposit is returned as part of the transaction that submits the retireme
 > The deposit amount returned is the exact amount that was deposited, rather than the amount
 currently specified by the `drepDeposit` parameter, which may have changed since the deposit was made.
 
-
 ##### Vote delegation certificates
 
 Vote delegation certificates include:
@@ -1105,8 +1104,6 @@ the certificates for (de-)registering DReps could be removed. This
 makes the democracy more liquid since it removes some bureaucracy and
 also removes the need for the DRep deposit, at the cost of moving the anchor that is part of the
 DRep registration certificate into the transaction metadata.
-
-
 
 ##### Reduced deposits for some government actions
 
