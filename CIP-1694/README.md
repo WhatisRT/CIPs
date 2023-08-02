@@ -976,6 +976,63 @@ We solve the long-term participation problem by not allowing reward withdrawals
 (after the bootstrap phase) unless the stake is delegated to a DRep
 (including the two special cases, namely 'Abstain' and 'No confidence').
 
+## Changelog
+
+### Changes post Longmont workshop (March 2023)
+
+* Thank the workshop attendees.
+* We have added Constitutional Committee term limits.
+  The term is renewed each time they successfully elect a new committee.
+* Two new "pre-defined" DRep options: abstain and no confidence.
+* New "Info" governance action.
+* Use the most recent DRep stake distribution for ratification.
+  This means that if every your DRep votes how you do not like,
+  you can immediately make yourself a DRep and vote how you want.
+* Escrow some ADA from the current treasury for potential future DRep
+  incentives.
+* Remove the tiered treasury actions in favor of something adaptive
+  (so the "yes" threshold would depend on:
+    1) how much ada,
+    2) how high the registered voting stake, and maybe
+    3) how much ada is released every epoch
+* Split the protocol parameter updates into four groups:
+  network, economic, technical, and governmental.
+* Most governmental actions can be enacted (upon ratification)
+  right away. All but: protocol parameters and hard forks.
+* Remove "one action per type per epoch" restriction in favor of
+  tracking the last action ID of each type, and including this in
+  the action.
+* No AVST.
+* Boost strap phase: Until X% of ADA is registered to vote or Y epochs
+  have elapsed, only parameter changes and hard forks can happen.
+  PP changes just need CC quorum, HFs need CC and SPOs.
+  After the bootstrap phase, we put in place the incentive to keep low
+  DReps, but this mechanism **automatically** relaxes.
+* New plutus script purpose for DReps.
+* Multiple treasury withdrawals in one epoch.
+* A section on the recursive problem of "how do we ratify this CIP".
+* Changes to the local state-query protocol.
+* New ideas, time permitting:
+  * Weigh SPO stake vote by pledge somehow.
+  * DReps can specify which other DRep gets their delegators
+    in the event that they retire.
+  * Reduced government action deposit if one member of the CC signs off
+    on it (which presumably means it has gone through some process).
+  * Include hash of (future) genesis configuration within HF proposal.
+
+### Changes post Edinburgh workshop (July 2023)
+
+* Add proposal policy, which can control what treasury withdrawals and
+  protocol parameter changes are allowed.
+* Remove dropping of governance actions.
+* All governance actions are enacted one epoch after they are ratified.
+* Move post-bootstrapping restrictions into 'Other Ideas'.
+* Add a section on different deposit amounts to 'Other Ideas'.
+* Add a section for a minimum AVS to 'Other Ideas'.
+* Rename some protocol parameters.
+* Rework which anchors are required and which are optional.
+* Clean up various inconsistencies and leftovers from older versions.
+
 ## Path to Active
 
 ### Acceptance Criteria
