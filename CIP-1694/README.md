@@ -517,12 +517,12 @@ that has been granted to the current constitutional committee.
 
 Each governance action goes through the following lifecycle :
 
-| Lifecycle event   | Can occur                                | Ongoing until                                   | Conditions     |
-| :---              | :---                                     | :---                                            | :---                                                                                                                        |
-| 1. Proposal       | Any time                                 | N/A                                             | N/A   |
-| 2. Voting         | After proposal is processed              | Expiration                                      | N/A   |
-| 3. Ratification   | On each epoch boundary after proposal    | Next epoch boundary (after ratification starts) | CC in normal state      |
-| 3. Enactment      | Epoch boundary after ratification ends   | Epoch boundary after ratification ends          | (1) Enough votes in favour (2) CC in normal state (3) Prev. governance action ID in proposal matches last enacted           |
+| Lifecycle event   | Can occur                                   | Ongoing until                                      | Conditions                      |
+| :---              | :---                                        | :---                                               | :---                            |
+| 1. Proposal       | Any time                                    | N/A                                                | Proposal policy validates       |
+| 2. Voting         | After proposal is processed                 | Expiration                                         | N/A                             |
+| 3. Ratification   | On each epoch boundary after proposal       | Next epoch boundary (after ratification starts)    | CC in normal state              |
+| 3. Enactment      | Epoch boundary on which ratification ends   | Epoch boundary on which ratification ends          | See enactment conditions below  |
 
 Ratification is the process of counting votes for a given action.
 All governance actions are enacted on the epoch boundary after their ratification.
@@ -637,6 +637,13 @@ Actions that have been ratified in the current epoch are prioritized as follows 
 
 Governance actions are enacted in order of acceptance to the chain.
 This resolves conflicts where, e.g. there are two competing parameter changes.
+
+##### Enactment conditions
+
+1. Enough votes in favour
+2. CC is in normal state
+3. Previous governance action ID in the proposal matches the last enacted action ID of the same type
+4. Most recent hard-fork supports enactment of the action
 
 #### Content
 
