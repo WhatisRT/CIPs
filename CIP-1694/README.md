@@ -517,12 +517,12 @@ that has been granted to the current constitutional committee.
 
 Each governance action goes through the following lifecycle :
 
-| Lifecycle event   | Can occur                                | Ongoing until                                   | Conditions                                                   |
-| :---              | :---                                     | :---                                            | :---                                                         |
-| 1. Proposal       | Any time                                 | N/A                                             | Prev. governance action ID in proposal matches last enacted  |
-| 2. Voting         | After proposal is processed              | Expiration                                      | N/A                                                          |
-| 3. Ratification   | On each epoch boundary after proposal    | Next epoch boundary (after ratification starts) | CC in normal state                                           |
-| 3. Enactment      | Epoch boundary after ratification ends   | Epoch boundary after ratification ends          | (1) Enough votes in favour (2) CC in normal state            |
+| Lifecycle event   | Can occur                                | Ongoing until                                   | Conditions     |
+| :---              | :---                                     | :---                                            | :---                                                                                                                        |
+| 1. Proposal       | Any time                                 | N/A                                             | N/A   |
+| 2. Voting         | After proposal is processed              | Expiration                                      | N/A   |
+| 3. Ratification   | On each epoch boundary after proposal    | Next epoch boundary (after ratification starts) | CC in normal state      |
+| 3. Enactment      | Epoch boundary after ratification ends   | Epoch boundary after ratification ends          | (1) Enough votes in favour (2) CC in normal state (3) Prev. governance action ID in proposal matches last enacted           |
 
 Ratification is the process of counting votes for a given action.
 All governance actions are enacted on the epoch boundary after their ratification.
