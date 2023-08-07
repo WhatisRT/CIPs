@@ -216,11 +216,11 @@ How any private companies, public or private institutions,  individuals etc. cho
   - [Incentives for Ada holders to delegate voting stake](#incentives-for-ada-holders-to-delegate-voting-stake)
   - [DRep incentives](#drep-incentives)
 + [Governance actions](#governance-actions)
+  - [Lifecycle](#lifecycle)
   - [Ratification](#ratification)
     * [Requirements](#requirements)
     * [Restrictions](#restrictions)
   - [Enactment](#enactment)
-  - [Lifecycle](#lifecycle)
   - [Content](#content)
   - [Protocol parameter groups](#protocol-parameter-groups)
 + [Votes](#votes)
@@ -419,6 +419,10 @@ Note that a DRep is retired immediately upon the chain accepting a retirement ce
 and the deposit is returned as part of the transaction that submits the retirement certificate
 (the same way that stake credential registration deposits are returned).
 
+> **Warning**
+> The deposit amount returned is the exact amount that was deposited, rather than the amount
+currently specified by the `drepDeposit` parameter, which may have changed since the deposit was made.
+
 ##### Vote delegation certificates
 
 Vote delegation certificates include:
@@ -489,10 +493,6 @@ Such an action would be auditable on-chain, and should reflect an off-chain agre
 We define seven different types of **governance actions**.
 A governance action is an on-chain event that is triggered by a transaction and has a deadline after which it cannot be enacted.
 
-- An action is said to be **ratified** when it gathers enough votes in its favor (through the rules and parameters that are detailed below).
-- An action that fails to be ratified before its deadline is said to have **expired**.
-- An action that has been ratified is said to be **enacted** once it has been activated on the network.
-
 
 | Action                                                        | Description                                                                                                              |
 |:--------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
@@ -512,6 +512,31 @@ It will also be counted towards the stake of the reward address it will be paid 
 
 Note that a motion of no-confidence is an extreme measure that enables Ada holders to revoke the power
 that has been granted to the current constitutional committee.
+
+#### Lifecycle
+
+Each governance action goes through the following lifecycle :
+
+| Lifecycle event   | Can occur                                   | Ongoing until                                      | Conditions                      |
+| :---              | :---                                        | :---                                               | :---                            |
+| 1. Proposal       | Any time                                    | N/A                                                | Proposal policy validates       |
+| 2. Voting         | After proposal is processed                 | Expiration                                         | N/A                             |
+| 3. Ratification   | On each epoch boundary after proposal       | Next epoch boundary (after ratification starts)    | CC in normal state              |
+| 3. Enactment      | Epoch boundary on which ratification ends   | Epoch boundary on which ratification ends          | See enactment conditions below  |
+
+Ratification is the process of counting votes for a given action.
+All governance actions are enacted on the epoch boundary after their ratification.
+
+- An action is said to be **ratified** when it gathers enough votes in its favor (through the rules and parameters that are detailed below).
+- An action that fails to be ratified before its deadline is said to have **expired**.
+- An action that has been ratified is said to be **enacted** once it has been activated on the network.
+
+A lifecycle is complete whenever an action is either **expired** or **enacted**.
+Once the lifecycle is complete, deposits are returned immediately.
+
+> **Warning**
+> The deposit amount returned is the exact amount that was deposited, rather than the amount
+currently specified by the `govDeposit` parameter, which may have changed since the deposit was made.
 
 > **Note**
 > A **single** governance action might contain **multiple** protocol parameter updates. Many parameters are inter-connected and might require moving in lockstep.
@@ -613,19 +638,12 @@ Actions that have been ratified in the current epoch are prioritized as follows 
 Governance actions are enacted in order of acceptance to the chain.
 This resolves conflicts where, e.g. there are two competing parameter changes.
 
-#### Lifecycle
+##### Enactment conditions
 
-Governance actions are checked for ratification only on an epoch boundary.
-Once ratified, actions are staged for enactment.
-
-All submitted governance actions will therefore either:
-
-1. be **ratified**, then **enacted**
-2. or **expire** after a number of epochs
-
-In all of those cases, deposits are returned immediately.
-
-All governance actions are enacted on the epoch boundary after their ratification.
+1. Enough votes in favour
+2. CC is in normal state
+3. Previous governance action ID in the proposal matches the last enacted action ID of the same type
+4. Most recent hard-fork supports enactment of the action
 
 #### Content
 
